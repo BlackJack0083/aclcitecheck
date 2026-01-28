@@ -1,5 +1,5 @@
 [project]
-name = "python-template"
+name = "aclcitecheck"
 version = "0.1.0"
 description = "Python 项目初始化模版"
 readme = "README.md"
