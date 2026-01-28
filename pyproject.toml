@@ -1,0 +1,42 @@
+[project]
+name = "python-template"
+version = "0.1.0"
+description = "Python 项目初始化模版"
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = []
+
+[project.optional-dependencies]
+dev = [
+    "commitizen>=4.8.2",
+    "pre-commit>=4.2.0",
+]
+
+[tool.ruff.lint]
+select = [
+    "E", # pycodestyle (error)
+    "F", # pyflakes
+    "B", # bugbear
+    "S",
+    "C4", # flake8-comprehensions
+    "SIM", # flake8-simplify
+    "I", # isort
+    "UP", # pyupgrade
+    "PIE", # flake8-pie
+    "PGH", # pygrep-hooks
+    "PYI", # flake8-pyi
+]
+ignore = [
+    "E501" # line-too-long
+]
+
+[[tool.uv.index]]
+url = "https://mirrors.cernet.edu.cn/pypi/web/simple"
+default = true
+
+[tool.commitizen]
+name = "cz_conventional_commits"
+tag_format = "v$version"
+
+branch_pattern = "^(feature|bugfix|hotfix)/.+"
+branch_message = "Branch name '{{branch}}' does not follow the pattern '^(feature|bugfix|hotfix)/.+'"

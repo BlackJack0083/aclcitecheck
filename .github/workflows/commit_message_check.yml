@@ -1,0 +1,52 @@
+name: Check Commit Messages
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  check-commit-message:
+    name: Check Commit Message
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.x'
+
+      - name: Install Commitizen
+        run: pip install commitizen
+
+      - name: Run Commitizen Check
+        run: |
+          if [ "${{ github.event_name }}" == "pull_request" ]; then
+            cz check --rev-range ${{ github.event.pull_request.base.sha }}..${{ github.event.pull_request.head.sha }}
+          elif [ "${{ github.event_name }}" == "push" ]; then
+            cz check --rev-range ${{ github.event.before }}..${{ github.sha }}
+          fi
+
+  check-branch-name:
+    name: Check Branch Name
+    if: github.event_name == 'pull_request'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.x'
+
+      - name: Install Commitizen
+        run: pip install commitizen
+
+      - name: Run Commitizen Branch Check
+        run: cz check-branch --branch "${{ github.event.pull_request.head.ref }}"
